@@ -30,8 +30,9 @@ Screens:
 	Splash screen (extension): Todo in right colors + fancy font
 	Home:
 		2 buttons (overview, add)
+		(extra button: Settings (theme, about, ...)
 	Overview:
-		Overview of todo's
+		Overview of todo'
 	Details: 
 		Show details (Title, due date, description)
 		Possibility to remove/edit

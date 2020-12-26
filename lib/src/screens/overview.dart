@@ -7,16 +7,16 @@ import 'package:todo_app/src/services/database.dart';
 
 class Overview extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Todo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Welcome to Flutter'),
-        ),
-        body: TodoOverview(),
+  Widget build(BuildContext context) { return MaterialApp(
+    title: 'Todo',
+    home: Scaffold(
+      appBar: AppBar(
+        title: Text('Welcome to Flutter'),
       ),
-    );
+      body: TodoOverview(),
+    ),
+  );
+
   }
 }
 
