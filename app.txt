@@ -29,9 +29,9 @@ Extensions:
 Screens:
 	Splash screen (extension): Todo in right colors + fancy font
 	Home:
+		2 buttons (overview, add)
+	Overview:
 		Overview of todo's
-		Button to add
-		(View completed todo's)
 	Details: 
 		Show details (Title, due date, description)
 		Possibility to remove/edit
