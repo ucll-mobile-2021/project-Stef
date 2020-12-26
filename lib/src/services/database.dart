@@ -8,6 +8,8 @@ class TodoDatabaseService {
 
   TodoDatabaseService._();
 
+  static final TodoDatabaseService db =TodoDatabaseService._();
+
   Database _database;
 
   Future<Database> get database async {
@@ -23,7 +25,7 @@ class TodoDatabaseService {
     return await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
           await db.execute(
-              'CREATE TABLE Todo (_id INTEGER PRIMARY KEY, title TEXT, description TEXT, dueDate TEXT, completed INTEGER');
+              'CREATE TABLE Todo (_id INTEGER PRIMARY KEY, title TEXT, description TEXT, dueDate TEXT, completed INTEGER)');
         });
   }
 
@@ -59,7 +61,7 @@ class TodoDatabaseService {
       txn.rawInsert(
           'INSERT into Todo(title, description, dueDate, completed) VALUES ('
               '"${newTodo.title}","${newTodo.description}","${newTodo.dueDate
-              .toIso8601String()}","${newTodo.completed == true ? 1 : 0}";');
+              .toIso8601String()}","${newTodo.completed == true ? 1 : 0}");');
       });
     newTodo.id = id;
     return newTodo;

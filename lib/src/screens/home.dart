@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import 'package:todo_app/src/screens/add.dart';
+import 'package:todo_app/src/services/database.dart';
 
 import 'overview.dart';
 
@@ -9,7 +11,7 @@ class MyHomePage extends StatelessWidget {
         title: 'Home',
         home: Scaffold(
           appBar: AppBar(
-            title: Text('Welcome to Flutter'),
+            title: Text('Todo App '),
           ),
           body: HomeBody()
         ));
@@ -50,7 +52,12 @@ class HomeBody extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddForm())
+              );
+            },
             textColor: Colors.white,
             padding: const EdgeInsets.all(0.0),
             child: Container(
@@ -73,5 +80,28 @@ class HomeBody extends StatelessWidget {
     );
   }
 
-
 }
+
+
+
+
+//TODO: shit below can possibly be removed
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    TodoDatabaseService.db.init();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
