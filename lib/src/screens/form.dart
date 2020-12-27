@@ -171,7 +171,6 @@ class _MyFormState extends State<MyForm> {
                   AnimatedContainer(
                       margin: EdgeInsets.only(left: 10),
                       duration: Duration(milliseconds: 200),
-                      // TODO Check dirty implementation
                       width: 100,
                       height: 42,
                       curve: Curves.decelerate,
@@ -254,10 +253,11 @@ class _MyFormState extends State<MyForm> {
     } else {
       await TodoDatabaseService.db.updateTodoInDB(currentTodo);
     }
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => MyHomePage())
-    );
+    widget.refetchData();
+    titleFocus.unfocus();
+    descriptionFocus.unfocus();
+    Navigator.pop(context);
+
   }
 
 

@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   List<Widget> buildTodoComponents() {
+    //todo if empty list => return place holder card (kinda like the add card)
     List<Widget> todoComponents = [];
     todoList.sort((a, b) => a.dueDate.compareTo(b.dueDate));
     todoList.forEach((todo) {

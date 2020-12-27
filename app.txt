@@ -10,20 +10,7 @@ User Stories
 
 Extensions: 
 	add pictures in notes
-	lock the app with fingerprint
-	share a todo with others
-
-
-
-Screens:
-	Splash screen (extension): Todo in right colors + fancy font
-	Home:
-		2 buttons (overview, add)
-		(extra button: Settings (theme, about, ...)
-	Overview:
-		Overview of todo'
-	Details: 
-		Show details (Title, due date, description)
-		Possibility to remove/edit
-	(Completed:)
-		Rework homepage without all the buttons	
+		lock the app with fingerprint
+		share a todo with others
+		Splash screen (extension): Todo in right colors + fancy font
+		Settings (select theme, about section(https://stackoverflow.com/questions/53672171/how-to-get-build-and-version-number-of-flutter-app)
