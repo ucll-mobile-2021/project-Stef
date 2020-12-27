@@ -114,7 +114,8 @@ class _MyFormState extends State<MyForm> {
                   hintStyle: TextStyle(
                       color: Colors.grey.shade400,
                       fontSize: 18,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.w500,
+                  fontFamily: 'ZillaSlab'),
                   border: InputBorder.none,
                 ),
               ),
@@ -134,13 +135,17 @@ class _MyFormState extends State<MyForm> {
                             hintStyle: TextStyle(
                                 color: Colors.grey.shade400,
                                 fontSize: 18,
-                                fontWeight: FontWeight.w500),
+                                fontWeight: FontWeight.w500,
+                            fontFamily: 'ZillaSlab'),
                             border: InputBorder.none,
                           ),
                         )),
                     RaisedButton(
                       onPressed: () => _selectDate(context),
-                      child: Text('Select due date'),
+                      child: Text(
+                          'Select due date', style: TextStyle(fontFamily: 'ZillaSlab', fontWeight: FontWeight.w500, color: Theme.of(context).canvasColor ),
+                      ),
+                      color: Theme.of(context).accentColor,
                     )
                   ],
                 )),
@@ -150,9 +155,8 @@ class _MyFormState extends State<MyForm> {
             child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Container(
-            height: 80,
-            // TODO colorscheme theme
-            // color: Theme.of(context).canvasColor.withOpacity(0.3)
+            height: 90,
+            color: Theme.of(context).canvasColor.withOpacity(0.3),
             child: SafeArea(
               child: Row(
                 children: <Widget>[
@@ -175,7 +179,6 @@ class _MyFormState extends State<MyForm> {
                       height: 42,
                       curve: Curves.decelerate,
                       child: RaisedButton.icon(
-                        // TODO colorscheme
                         color: Theme.of(context).accentColor,
                         textColor: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -185,7 +188,7 @@ class _MyFormState extends State<MyForm> {
                         icon: Icon(Icons.done),
                         label: Text(
                           'SAVE',
-                          style: TextStyle(letterSpacing: 1),
+                          style: TextStyle(letterSpacing: 1, fontFamily: 'ZillaSlab', fontWeight: FontWeight.w600),
                         ),
                         onPressed: handleSave,
                       ))
@@ -208,15 +211,16 @@ class _MyFormState extends State<MyForm> {
             return AlertDialog(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
-              title: Text('Delete Task'),
-              content: Text('This task will be deleted permanently'),
+              title: Text('Delete Task', style: TextStyle(fontFamily: 'ZillaSlab', fontWeight: FontWeight.w600)),
+              content: Text('This task will be deleted permanently', style: TextStyle(fontFamily: 'ZillaSlab')),
               actions: <Widget>[
                 FlatButton(
                   child: Text('DELETE',
                       style: TextStyle(
                           color: Colors.red.shade300,
                           fontWeight: FontWeight.w500,
-                          letterSpacing: 1)),
+                          letterSpacing: 1,
+                      fontFamily: 'ZillaSlab')),
                   onPressed: () async {
                     await TodoDatabaseService.db.deleteTodoInDB(currentTodo);
                     widget.refetchData();
@@ -229,7 +233,8 @@ class _MyFormState extends State<MyForm> {
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w500,
-                          letterSpacing: 1)),
+                          letterSpacing: 1,
+                      fontFamily: 'ZillaSlab')),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -265,4 +270,3 @@ class _MyFormState extends State<MyForm> {
     Navigator.pop(context);
   }
 }
-//TODO zorg dat duedate niet ge-edit kan worden

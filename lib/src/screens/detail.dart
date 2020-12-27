@@ -57,7 +57,9 @@ class _MyDetailState extends State<MyDetail> {
                 child: Text(
                   DateFormat.yMMMd().format(widget.current.dueDate),
                   style: TextStyle(
-                      fontWeight: FontWeight.w500, color: Colors.grey.shade500),
+                      fontFamily: 'ZillaSlab',
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey.shade500),
                 ),
               ),
             ),
@@ -66,7 +68,11 @@ class _MyDetailState extends State<MyDetail> {
                   left: 24.0, top: 36, bottom: 24, right: 24),
               child: Text(
                 widget.current.description,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'ZillaSlab'
+                ),
               ),
             )
           ],
@@ -75,7 +81,7 @@ class _MyDetailState extends State<MyDetail> {
           child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
               child: Container(
-                height: 80,
+                height: 90,
                 color: Theme.of(context).canvasColor.withOpacity(0.3),
                 child: SafeArea(
                   child: Row(
@@ -114,13 +120,14 @@ class _MyDetailState extends State<MyDetail> {
           return AlertDialog(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: Text('Delete Task'),
-            content: Text('This task will be deleted permanently'),
+            title: Text('Delete Task', style: TextStyle(fontFamily: 'ZillaSlab', fontWeight: FontWeight.w600),),
+            content: Text('This task will be deleted permanently', style: TextStyle(fontFamily: 'ZillaSlab'),),
             actions: <Widget>[
               FlatButton(
                 child: Text('DELETE',
                     style: TextStyle(
                         color: Colors.red.shade300,
+                        fontFamily: "ZillaSlab",
                         fontWeight: FontWeight.w500,
                         letterSpacing: 1)),
                 onPressed: () async {
@@ -134,6 +141,7 @@ class _MyDetailState extends State<MyDetail> {
                 child: Text('CANCEL',
                     style: TextStyle(
                         color: Theme.of(context).primaryColor,
+                        fontFamily: 'ZillaSlab',
                         fontWeight: FontWeight.w500,
                         letterSpacing: 1)),
                 onPressed: () {
@@ -146,12 +154,14 @@ class _MyDetailState extends State<MyDetail> {
   }
 
   void handleEdit() {
+    //todo check if this can be removed
     Navigator.pop(context);
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => MyForm(
-                refetchData: widget.refetchData, existingTodo: widget.current)));
+                refetchData: widget.refetchData,
+                existingTodo: widget.current)));
   }
 
   void handleBack() {

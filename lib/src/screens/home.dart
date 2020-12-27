@@ -32,9 +32,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         // TODO colorscheme
-        //backgroundColor: Theme.of(context).primaryColor
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () => goToForm(),
-        label: Text('Add note'.toUpperCase()),
+        label: Text('Add task'.toUpperCase(), style: TextStyle(fontFamily: 'ZillaSlab', fontWeight: FontWeight.w600),),
         icon: Icon(Icons.add),
       ),
       body: GestureDetector(
@@ -47,10 +47,12 @@ class _MyHomePageState extends State<MyHomePage> {
               physics: BouncingScrollPhysics(),
               children: <Widget>[
                 //Todo: remove appbar and add header (welcome...)
+                buildHeader(context),
                 ...buildTodoComponents(),
-                GestureDetector(
-                  onTap: goToForm, child: AddTodoCard()),
-                Container(height: 100,)
+                GestureDetector(onTap: goToForm, child: AddTodoCard()),
+                Container(
+                  height: 100,
+                )
               ],
             ),
             margin: EdgeInsets.only(top: 2),
@@ -60,20 +62,25 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   List<Widget> buildTodoComponents() {
-    //todo if empty list => return place holder card (kinda like the add card)
     List<Widget> todoComponents = [];
-    todoList.sort((a, b) => a.dueDate.compareTo(b.dueDate));
-    todoList.forEach((todo) {
-      todoComponents.add(TodoCard(todoData: todo, onTapAction: openTodo));
-    });
+    if (todoList.isEmpty) {
+      todoComponents.add(PlaceholderCard());
+      //todo if empty list => return place holder card (kinda like the add card)
+    } else {
+      todoList.sort((a, b) => a.dueDate.compareTo(b.dueDate));
+      todoList.forEach((todo) {
+        todoComponents.add(TodoCard(todoData: todo, onTapAction: openTodo));
+      });
+    }
     return todoComponents;
   }
 
   openTodo(TodoModel todoData) async {
     Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => MyDetail(refetchData: refetchFromDB, current: todoData))
-    );
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                MyDetail(refetchData: refetchFromDB, current: todoData)));
   }
 
   void refetchFromDB() async {
@@ -82,10 +89,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
   goToForm() {
     Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            MyForm(refetchData: refetchFromDB)
-      ));
+        context,
+        MaterialPageRoute(
+            builder: (context) => MyForm(refetchData: refetchFromDB)));
+  }
+
+  Widget buildHeader(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        AnimatedContainer(
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeIn,
+          margin: EdgeInsets.only(top: 8, bottom: 32, left: 10),
+          child: Text(
+            'Your tasks',
+            style: TextStyle(
+                fontFamily: 'ZillaSlab',
+                fontWeight: FontWeight.w700,
+                fontSize: 36,
+                color: Theme.of(context).primaryColor),
+            overflow: TextOverflow.clip,
+            softWrap: false,
+          ),
+        ),
+      ],
+    );
   }
 }

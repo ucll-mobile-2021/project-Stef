@@ -3,17 +3,6 @@ import "package:flutter/material.dart";
 import 'package:todo_app/src/model/model.dart';
 import 'package:intl/intl.dart';
 
-List<Color> colorList = [
-  Colors.blue,
-  Colors.green,
-  Colors.indigo,
-  Colors.red,
-  Colors.cyan,
-  Colors.teal,
-  Colors.amber.shade900,
-  Colors.deepOrange
-];
-
 class TodoCard extends StatelessWidget {
   final TodoModel todoData;
   final Function(TodoModel todoModel) onTapAction;
@@ -23,7 +12,7 @@ class TodoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String cleanDate = DateFormat.yMMMd().format(todoData.dueDate);
-    Color color = colorList.elementAt(todoData.title.length % colorList.length);
+    Color color = Theme.of(context).accentColor;
     return Container(
       margin: EdgeInsets.fromLTRB(10, 8, 10, 8),
       height: 110,
@@ -50,10 +39,7 @@ class TodoCard extends StatelessWidget {
                   '${todoData.title.trim().length <= 20 ? todoData.title.trim() : todoData.title.trim().substring(0, 20) + '...'}',
                   style: TextStyle(
                       fontFamily: 'ZillaSlab',
-                      fontSize: 20,
-                      fontWeight: todoData.completed
-                          ? FontWeight.w800
-                          : FontWeight.normal),
+                      fontSize: 20),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 8),
@@ -73,6 +59,7 @@ class TodoCard extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey.shade300,
+                            fontFamily: 'ZillaSlab',
                             fontWeight: FontWeight.w500),
                       )
                     ],
@@ -104,7 +91,7 @@ class AddTodoCard extends StatelessWidget {
         height: 110,
         decoration: BoxDecoration(
           border: Border.all(color: Theme.of(context).primaryColor, width: 2),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(18),
         ),
         child: Material(
           borderRadius: BorderRadius.circular(16),
@@ -123,9 +110,9 @@ class AddTodoCard extends StatelessWidget {
                         color: Theme.of(context).primaryColor,
                       ),
                       Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8),
                           child: Text(
-                            'Add new note',
+                            'Add new task',
                             style: TextStyle(
                                 fontFamily: 'ZillaSlab',
                                 color: Theme.of(context).primaryColor,
@@ -167,6 +154,49 @@ class OverviewCard extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'Show Overview',
+                            style: TextStyle(
+                                fontFamily: 'ZillaSlab',
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 20),
+                          ))
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ));
+  }
+}
+
+class PlaceholderCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: EdgeInsets.fromLTRB(10, 8, 10, 8),
+        height: 110,
+        decoration: BoxDecoration(
+          border: Border.all(color: Theme.of(context).primaryColor, width: 2),
+          borderRadius: BorderRadius.circular(18),
+          // color: Theme.of(context).primaryColor,
+          // color: Colors.red,
+        ),
+        child: Material(
+          borderRadius: BorderRadius.circular(16),
+          clipBehavior: Clip.antiAlias,
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'There are currently no tasks',
                             style: TextStyle(
                                 fontFamily: 'ZillaSlab',
                                 color: Theme.of(context).primaryColor,
