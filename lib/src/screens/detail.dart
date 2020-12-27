@@ -154,7 +154,6 @@ class _MyDetailState extends State<MyDetail> {
   }
 
   void handleEdit() {
-    //todo check if this can be removed
     Navigator.pop(context);
     Navigator.push(
         context,
