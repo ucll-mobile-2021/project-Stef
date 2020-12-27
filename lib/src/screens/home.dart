@@ -1,11 +1,17 @@
 import "package:flutter/material.dart";
+import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:todo_app/src/components/TodoCards.dart';
 import 'package:todo_app/src/model/model.dart';
 import 'package:todo_app/src/screens/detail.dart';
 import 'package:todo_app/src/screens/form.dart';
+import 'package:todo_app/src/screens/settings.dart';
 import 'package:todo_app/src/services/database.dart';
 
 class MyHomePage extends StatefulWidget {
+  final Function(Brightness brightness) changeTheme;
+
+  MyHomePage({Key key, this.changeTheme}) : super(key: key);
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -34,7 +40,11 @@ class _MyHomePageState extends State<MyHomePage> {
         // TODO colorscheme
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () => goToForm(),
-        label: Text('Add task'.toUpperCase(), style: TextStyle(fontFamily: 'ZillaSlab', fontWeight: FontWeight.w600),),
+        label: Text(
+          'Add task'.toUpperCase(),
+          style:
+              TextStyle(fontFamily: 'ZillaSlab', fontWeight: FontWeight.w600),
+        ),
         icon: Icon(Icons.add),
       ),
       body: GestureDetector(
@@ -46,10 +56,34 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ListView(
               physics: BouncingScrollPhysics(),
               children: <Widget>[
-                //Todo: remove appbar and add header (welcome...)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Settings(changeTheme: widget.changeTheme)));
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        padding: EdgeInsets.all(16),
+                        alignment: Alignment.centerRight,
+                        child: Icon(OMIcons.settings,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? Colors.grey.shade600
+                                    : Colors.grey.shade300),
+                      ),
+                    )
+                  ],
+                ),
                 buildHeader(context),
                 ...buildTodoComponents(),
-                GestureDetector(onTap: goToForm, child: AddTodoCard()),
+                // GestureDetector(onTap: goToForm, child: AddTodoCard()),
                 Container(
                   height: 100,
                 )

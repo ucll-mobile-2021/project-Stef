@@ -181,7 +181,7 @@ class _MyFormState extends State<MyForm> {
                       curve: Curves.decelerate,
                       child: RaisedButton.icon(
                         color: Theme.of(context).accentColor,
-                        textColor: Colors.white,
+                        textColor: Theme.of(context).canvasColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(100),
