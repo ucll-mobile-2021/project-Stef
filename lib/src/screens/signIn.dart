@@ -8,7 +8,9 @@ class SignIn extends StatefulWidget {
   final Function(bool val) changeBiometrics;
   final bool signInEnabled;
 
-  const SignIn({Key key, this.changeTheme, this.signInEnabled, this.changeBiometrics}) : super(key: key);
+  const SignIn(
+      {Key key, this.changeTheme, this.signInEnabled, this.changeBiometrics})
+      : super(key: key);
 
   @override
   _SignInState createState() => _SignInState();
@@ -56,7 +58,7 @@ class _SignInState extends State<SignIn> {
       });
       authenticated = await auth.authenticateWithBiometrics(
           localizedReason: 'Scan your fingerprint to authenticate',
-          useErrorDialogs: true,
+          useErrorDialogs: false,
           stickyAuth: true);
       setState(() {
         _isAuthenticating = false;
@@ -64,6 +66,8 @@ class _SignInState extends State<SignIn> {
       });
     } on PlatformException catch (e) {
       print(e);
+      _canCheckBiometrics = false;
+      goToHome();
     }
     if (!mounted) return;
     final String message = authenticated ? 'Authorized' : 'Not Authorized';
@@ -120,9 +124,11 @@ class _SignInState extends State<SignIn> {
       await _authenticate();
     } else {
       Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MyHomePage(changeTheme: widget.changeTheme,))
-      );
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(
+                    changeTheme: widget.changeTheme,
+                  )));
     }
   }
 
@@ -187,6 +193,4 @@ class _SignInState extends State<SignIn> {
       ],
     );
   }
-
-
 }
