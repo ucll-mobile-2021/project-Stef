@@ -1,45 +1,39 @@
 import "package:flutter/material.dart";
 import 'package:todo_app/src/components/TodoCards.dart';
-import 'package:todo_app/src/screens/add.dart';
+import 'package:todo_app/src/model/model.dart';
+import 'package:todo_app/src/screens/detail.dart';
 import 'package:todo_app/src/screens/form.dart';
 import 'package:todo_app/src/services/database.dart';
 
-import 'overview.dart';
-
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Home',
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text('Todo App '),
-            ),
-            body: HomePage()));
-  }
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+class _MyHomePageState extends State<MyHomePage> {
+  List<TodoModel> todoList = [];
 
-class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
     TodoDatabaseService.db.init();
+    setTodoList();
+  }
+
+  setTodoList() async {
+    var fetchedTodo = await TodoDatabaseService.db.getTodoFromDB();
+    setState(() {
+      todoList = fetchedTodo;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
+        // TODO colorscheme
         //backgroundColor: Theme.of(context).primaryColor
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => FormPage() ));
-        },
+        onPressed: () => goToForm(),
         label: Text('Add note'.toUpperCase()),
         icon: Icon(Icons.add),
       ),
@@ -52,21 +46,45 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               physics: BouncingScrollPhysics(),
               children: <Widget>[
-                //Todo header
+                //Todo: remove appbar and add header (welcome...)
+                ...buildTodoComponents(),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      // TODO change AddForm to general edit/add
-                      MaterialPageRoute(builder: (context) => Overview())
-                    );
-                  },
-                  child: OverviewCard(),
-                ),
+                  onTap: goToForm, child: AddTodoCard()),
+                Container(height: 100,)
               ],
             ),
+            margin: EdgeInsets.only(top: 2),
+            padding: EdgeInsets.only(left: 15, right: 15),
           )),
     );
   }
 
+  List<Widget> buildTodoComponents() {
+    List<Widget> todoComponents = [];
+    todoList.sort((a, b) => a.dueDate.compareTo(b.dueDate));
+    todoList.forEach((todo) {
+      todoComponents.add(TodoCard(todoData: todo, onTapAction: openTodo));
+    });
+    return todoComponents;
+  }
+
+  openTodo(TodoModel todoData) async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MyDetail(refetchData: refetchFromDB, current: todoData))
+    );
+  }
+
+  void refetchFromDB() async {
+    await setTodoList();
+  }
+
+  goToForm() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            MyForm(refetchData: refetchFromDB)
+      ));
+  }
 }

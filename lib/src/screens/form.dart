@@ -6,21 +6,15 @@ import 'dart:async';
 import 'package:todo_app/src/model/model.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/src/screens/home.dart';
-import 'package:todo_app/src/screens/overview.dart';
+
 import 'package:todo_app/src/services/database.dart';
 
-class FormPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(title: 'Form', home: MyForm());
-  }
-}
 
 class MyForm extends StatefulWidget {
-  Function() refetchData;
-  TodoModel oldTodo;
+  final Function() refetchData;
+  final TodoModel existingTodo;
 
-  MyForm({this.refetchData, this.oldTodo});
+  MyForm({this.refetchData, this.existingTodo});
 
   @override
   _MyFormState createState() => _MyFormState();
@@ -28,7 +22,6 @@ class MyForm extends StatefulWidget {
 
 class _MyFormState extends State<MyForm> {
   bool isNew = true;
-
 
   FocusNode titleFocus = FocusNode();
   FocusNode descriptionFocus = FocusNode();
@@ -56,18 +49,18 @@ class _MyFormState extends State<MyForm> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    if (widget.oldTodo == null) {
+    if (widget.existingTodo == null) {
       currentTodo =
           TodoModel(title: '', description: '', dueDate: DateTime.now());
     } else {
-      currentTodo = widget.oldTodo;
+      currentTodo = widget.existingTodo;
       isNew = false;
+      // Only set due date text when editing a pre existing task
+      dateController.text = DateFormat.yMMMd().format(currentTodo.dueDate);
     }
     titleController.text = currentTodo.title;
     descriptionController.text = currentTodo.description;
-    dateController.text = DateFormat.yMMMd().format(currentTodo.dueDate);
   }
 
   @override
@@ -137,7 +130,7 @@ class _MyFormState extends State<MyForm> {
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w600),
                           decoration: InputDecoration.collapsed(
-                            hintText: 'Enter description...',
+                            hintText: 'Due date...',
                             hintStyle: TextStyle(
                                 color: Colors.grey.shade400,
                                 fontSize: 18,
@@ -166,12 +159,8 @@ class _MyFormState extends State<MyForm> {
                   // Go back
                   IconButton(
                       icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyHomePage())
-                        );
-                      }),
+                      onPressed: handleBack,
+                      ),
                   Spacer(),
                   IconButton(
                     icon: Icon(Icons.delete_outline),
@@ -212,7 +201,7 @@ class _MyFormState extends State<MyForm> {
 
   void handleDelete() {
     if (isNew){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+      Navigator.pop(context);
     } else {
       showDialog(
           context: context,
@@ -267,8 +256,13 @@ class _MyFormState extends State<MyForm> {
     }
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Overview())
+      MaterialPageRoute(builder: (context) => MyHomePage())
     );
+  }
+
+
+  void handleBack() {
+    Navigator.pop(context);
   }
 }
 //TODO zorg dat duedate niet ge-edit kan worden
