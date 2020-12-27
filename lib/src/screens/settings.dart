@@ -19,7 +19,7 @@ class _SettingsState extends State<Settings> {
   Map _packageInfo = new Map<String, String>();
 
   void _setPackageInfo(){
-    _packageInfo['version'] = 'v0.3-beta';
+    _packageInfo['version'] = 'v1.0';
   }
  
   @override

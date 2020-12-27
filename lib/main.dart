@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/src/screens/signIn.dart';
 import 'package:todo_app/src/services/themeStorage.dart';
-import 'src/screens/home.dart';
 import 'src/components/theme.dart';
 
 void main() => runApp(TodoApp());
@@ -23,7 +23,7 @@ class _TodoAppState extends State<TodoApp> {
     return MaterialApp(
       title: 'Todo',
       theme: theme,
-      home: MyHomePage(changeTheme: setTheme)
+      home: SignIn(changeTheme: setTheme)
     );
   }
 
