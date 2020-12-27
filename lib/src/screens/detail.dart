@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:todo_app/src/model/model.dart';
 import 'package:intl/intl.dart';
 import 'dart:ui';
@@ -96,10 +97,10 @@ class _MyDetailState extends State<MyDetail> {
                         onPressed: handleDelete,
                       ),
                       // TODO: make sharing possible
-                      // IconButton(
-                      //   icon: Icon(OMIcons.share),
-                      //   onPressed: handleShare,
-                      // ),
+                      IconButton(
+                        icon: Icon(OMIcons.share),
+                        onPressed: handleShare,
+                      ),
                       IconButton(
                         icon: Icon(OMIcons.edit),
                         onPressed: handleEdit,
@@ -165,5 +166,11 @@ class _MyDetailState extends State<MyDetail> {
 
   void handleBack() {
     Navigator.pop(context);
+  }
+
+  void handleShare() {
+    Share.share(
+      '${widget.current.title.trim()}\n(Due: ${DateFormat.yMMMd().format(widget.current.dueDate)})\n\n${widget.current.description}'
+    );
   }
 }

@@ -37,7 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        // TODO colorscheme
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () => goToForm(),
         label: Text(
@@ -99,7 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Widget> todoComponents = [];
     if (todoList.isEmpty) {
       todoComponents.add(PlaceholderCard());
-      //todo if empty list => return place holder card (kinda like the add card)
     } else {
       todoList.sort((a, b) => a.dueDate.compareTo(b.dueDate));
       todoList.forEach((todo) {
