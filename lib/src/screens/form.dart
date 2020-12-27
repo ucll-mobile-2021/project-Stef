@@ -127,6 +127,7 @@ class _MyFormState extends State<MyForm> {
                     FocusScope(
                         node: new FocusScopeNode(),
                         child: TextField(
+                          enabled: false,
                           controller: dateController,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w600),
