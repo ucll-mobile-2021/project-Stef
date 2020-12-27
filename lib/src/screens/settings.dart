@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:todo_app/src/services/themeStorage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Settings extends StatefulWidget {
   final Function(Brightness brightness) changeTheme;
@@ -15,13 +16,22 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   String selectedTheme;
 
+  Map _packageInfo = new Map<String, String>();
+
+  void _setPackageInfo(){
+    _packageInfo['version'] = 'v0.3-beta';
+  }
+ 
+  @override
+  void initState() {
+    super.initState();
+    _setPackageInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
     setState(() {
-      if (Theme
-          .of(context)
-          .brightness == Brightness.dark) {
+      if (Theme.of(context).brightness == Brightness.dark) {
         selectedTheme = 'dark';
       } else {
         selectedTheme = 'light';
@@ -70,8 +80,8 @@ class _SettingsState extends State<Settings> {
                         ),
                         Text(
                           'Light Theme',
-                          style: TextStyle(
-                              fontSize: 18, fontFamily: 'ZillaSlab'),
+                          style:
+                              TextStyle(fontSize: 18, fontFamily: 'ZillaSlab'),
                         )
                       ],
                     ),
@@ -84,8 +94,8 @@ class _SettingsState extends State<Settings> {
                         ),
                         Text(
                           'Dark theme',
-                          style: TextStyle(
-                              fontFamily: 'ZillaSlab', fontSize: 18),
+                          style:
+                              TextStyle(fontFamily: 'ZillaSlab', fontSize: 18),
                         )
                       ],
                     )
@@ -94,24 +104,54 @@ class _SettingsState extends State<Settings> {
                 // Build about section
                 buildCard(Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget> [
+                  children: <Widget>[
                     Text(
                       'About app',
-                      style: TextStyle( fontSize: 24, fontFamily: 'ZillaSlab', color: Theme.of(context).primaryColor),
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontFamily: 'ZillaSlab',
+                          color: Theme.of(context).primaryColor),
                     ),
-                    Container(height: 40,),
+                    Container(
+                      height: 40,
+                    ),
                     Center(
-                      child: Text(
-                        'Developed by'.toUpperCase(),
-                        style: TextStyle(color: Colors.grey.shade600, fontFamily: 'ZillaSlab', letterSpacing: 1),
-                      )
+                        child: Text(
+                      'Version'.toUpperCase(),
+                      style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontFamily: 'ZillaSlab',
+                          letterSpacing: 1),
+                    )),
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 8, bottom: 4),
+                        child: Text(
+                          //this.packageInfo.version,
+                          _packageInfo['version'],
+                          style:
+                              TextStyle(fontFamily: 'ZillaSlab', fontSize: 24),
+                        ),
+                      ),
                     ),
+                    Container(
+                      height: 20,
+                    ),
+                    Center(
+                        child: Text(
+                      'Developed by'.toUpperCase(),
+                      style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontFamily: 'ZillaSlab',
+                          letterSpacing: 1),
+                    )),
                     Center(
                       child: Padding(
                         padding: EdgeInsets.only(top: 8, bottom: 4),
                         child: Text(
                           'Stef Tweepenninckx',
-                          style: TextStyle(fontFamily: 'ZillaSlab', fontSize: 24),
+                          style:
+                              TextStyle(fontFamily: 'ZillaSlab', fontSize: 24),
                         ),
                       ),
                     ),
@@ -121,16 +161,20 @@ class _SettingsState extends State<Settings> {
                         icon: Icon(OMIcons.link),
                         label: Text(
                           'SOURCE',
-                          style: TextStyle(fontFamily: 'ZillaSlab', letterSpacing: 1, color: Colors.grey.shade500),
+                          style: TextStyle(
+                              fontFamily: 'ZillaSlab',
+                              letterSpacing: 1,
+                              color: Colors.grey.shade500),
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)
-                        ),
-                        onPressed: openGit,
+                            borderRadius: BorderRadius.circular(16)),
+                        onPressed: () {
+                          // TODO set repo public + opengit
+                          //openGit();
+                        },
                       ),
                     )
                   ],
-
                 ))
               ],
             ),
@@ -142,15 +186,14 @@ class _SettingsState extends State<Settings> {
 
   buildHeader(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 8, bottom: 16 ,left: 8),
+      margin: EdgeInsets.only(top: 8, bottom: 16, left: 8),
       child: Text(
         'Settings',
         style: TextStyle(
-          fontFamily: 'ZillaSlab',
-          fontWeight: FontWeight.w700,
-          fontSize: 36,
-          color: Theme.of(context).primaryColor
-        ),
+            fontFamily: 'ZillaSlab',
+            fontWeight: FontWeight.w700,
+            fontSize: 36,
+            color: Theme.of(context).primaryColor),
       ),
     );
   }
@@ -158,15 +201,14 @@ class _SettingsState extends State<Settings> {
   buildCard(Widget child) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).dialogBackgroundColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0,8),
-            color: Colors.black.withAlpha(20),
-            blurRadius: 16
-          )
-        ]),
+          color: Theme.of(context).dialogBackgroundColor,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(0, 8),
+                color: Colors.black.withAlpha(20),
+                blurRadius: 16)
+          ]),
       margin: EdgeInsets.all(24),
       padding: EdgeInsets.all(16),
       child: child,
@@ -177,14 +219,16 @@ class _SettingsState extends State<Settings> {
     setState(() {
       selectedTheme = value;
     });
-    if (value == 'light'){
+    if (value == 'light') {
       widget.changeTheme(Brightness.light);
-    } else{
+    } else {
       widget.changeTheme(Brightness.dark);
     }
     setThemeInLocalStorage(value);
   }
 
   void openGit() {
+    // TODO set repo public
+    launch('https://gitlab.com/SteTwe/todo-app');
   }
 }
